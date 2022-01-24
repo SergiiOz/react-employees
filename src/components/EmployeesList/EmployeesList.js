@@ -1,7 +1,7 @@
 import './EmployeesList.css';
 import EmployeesItem from '../EmployeesItem/EmployeesItem';
 
-const EmployeesList = ({ data }) => {
+const EmployeesList = ({ data, onDelete }) => {
   const renderEmployees = data.map((user) => {
     return (
       <EmployeesItem
@@ -9,6 +9,7 @@ const EmployeesList = ({ data }) => {
         name={user.name}
         salary={user.salary}
         increase={user.increase}
+        onDelete={() => onDelete(user.id)}
       />
     );
   });

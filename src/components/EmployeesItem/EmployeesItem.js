@@ -26,7 +26,7 @@ class EmployeesItem extends Component {
 
   render() {
     //destructurize
-    const { name, salary } = this.props;
+    const { name, salary, onDelete } = this.props;
     const { increase, rise } = this.state;
 
     //classes for <li> elements
@@ -61,7 +61,11 @@ class EmployeesItem extends Component {
             <i className="fas fa-cookie"></i>
           </button>
 
-          <button type="button" className="btn-trash btn-sm ">
+          <button
+            type="button"
+            className="btn-trash btn-sm "
+            onClick={onDelete}
+          >
             <i className="fas fa-trash"></i>
           </button>
           <i className="fas fa-star"></i>
