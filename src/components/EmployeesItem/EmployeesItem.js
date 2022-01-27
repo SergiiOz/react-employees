@@ -7,16 +7,13 @@ class EmployeesItem extends Component {
     super(props);
 
     this.state = {
-      increase: false,
       rise: false,
     };
   }
 
   //select increase an employee
   onIncrease = () => {
-    this.setState((prevState) => ({
-      increase: !prevState.increase,
-    }));
+    this.props.onToggleIncrease(this.props.id);
   };
 
   //select user who rise
@@ -26,8 +23,8 @@ class EmployeesItem extends Component {
 
   render() {
     //destructurize
-    const { name, salary, onDelete } = this.props;
-    const { increase, rise } = this.state;
+    const { name, salary, onDelete, increase } = this.props;
+    const { rise } = this.state;
 
     //classes for <li> elements
     let classNames = 'list-group-item d-flex justify-content-between';

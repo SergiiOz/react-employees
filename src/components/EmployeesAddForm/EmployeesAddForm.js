@@ -11,18 +11,33 @@ class EmployeesAddForm extends Component {
     };
   }
 
+  //create and pass new user
+  onSubmit = (e) => {
+    e.preventDefault();
+
+    this.props.onAddItem(this.state.name, this.state.salary);
+
+    //clear inputs
+    this.setState({
+      name: '',
+      salary: '',
+    });
+  };
+
+  //pass value from input 'name' and 'salary'
   onValueChange = (e) => {
     this.setState({
       [e.target.name]: e.target.value,
     });
   };
+
   render() {
     const { name, salary } = this.state;
 
     return (
       <div className="app-add-form">
         <h3>Add a new employee</h3>
-        <form className="add-form d-flex">
+        <form className="add-form d-flex" onSubmit={this.onSubmit}>
           <input
             type="text"
             className="form-control new-post-label"
