@@ -1,75 +1,70 @@
-import { Component } from 'react';
-
 import './EmployeesItem.css';
 
-class EmployeesItem extends Component {
-  constructor(props) {
-    super(props);
+const EmployeesItem = ({
+  name,
+  salary,
+  onDelete,
+  increase,
+  rise,
+  onToggleProp,
+  id,
+}) => {
+  //add classes for <li> elements
+  let classNames = 'list-group-item d-flex justify-content-between';
 
-    this.state = {
-      rise: false,
-    };
+  if (increase) {
+    classNames += ' increase';
   }
 
-  //select increase an employee
-  onIncrease = () => {
-    this.props.onToggleIncrease(this.props.id);
-  };
-
-  //select user who rise
-  onRise = () => {
-    this.setState(({ rise }) => ({ rise: !rise }));
-  };
-
-  render() {
-    //destructurize
-    const { name, salary, onDelete, increase } = this.props;
-    const { rise } = this.state;
-
-    //classes for <li> elements
-    let classNames = 'list-group-item d-flex justify-content-between';
-
-    if (increase) {
-      classNames += ' increase';
-    }
-
-    if (rise) {
-      classNames += ' like';
-    }
-
-    return (
-      <li className={classNames}>
-        <span className="list-group-item-label" onClick={this.onRise}>
-          {name}
-        </span>
-
-        <input
-          type="text"
-          className="list-group-item-input"
-          defaultValue={`$${salary}`}
-        />
-
-        <div className="d-flex justify-content-center align-items-center">
-          <button
-            onClick={this.onIncrease}
-            type="button"
-            className="btn-cookie btn-sm "
-          >
-            <i className="fas fa-cookie"></i>
-          </button>
-
-          <button
-            type="button"
-            className="btn-trash btn-sm "
-            onClick={onDelete}
-          >
-            <i className="fas fa-trash"></i>
-          </button>
-          <i className="fas fa-star"></i>
-        </div>
-      </li>
-    );
+  if (rise) {
+    classNames += ' like';
   }
-}
+
+  return (
+    <li className={classNames}>
+      <span
+        className="list-group-item-label"
+        //when click button we pass to func -> id and name data attribute 'name'
+        onClick={(e) =>
+          onToggleProp(id, e.currentTarget.getAttribute('data-toggle'))
+        }
+        // added attribute for get access'rise'
+        data-toggle="rise"
+      >
+        {name}
+      </span>
+
+      <input
+        type="text"
+        className="list-group-item-input"
+        defaultValue={`$${salary}`}
+      />
+
+      <div className="d-flex justify-content-center align-items-center">
+        <button
+          //when click button we pass to func -> id and name data attribute 'increase'
+          onClick={(e) =>
+            onToggleProp(id, e.currentTarget.getAttribute('data-toggle'))
+          }
+          type="button"
+          className="btn-cookie btn-sm "
+          // added attribute for get element access 'increase'
+          data-toggle="increase"
+        >
+          <i className="fas fa-cookie"></i>
+        </button>
+
+        <button
+          type="button"
+          className="btn-trash btn-sm "
+          onClick={() => onDelete(id)}
+        >
+          <i className="fas fa-trash"></i>
+        </button>
+        <i className="fas fa-star"></i>
+      </div>
+    </li>
+  );
+};
 
 export default EmployeesItem;

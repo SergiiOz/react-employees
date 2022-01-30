@@ -65,10 +65,8 @@ class App extends Component {
     }));
   };
 
-  //TOGGLE INCREASE
-  onToggleIncrease = (id) => {
-    console.log(`toggle Increase ${id}`);
-
+//Toggle rise nad toggle increase
+  onToggleProp = (id, prop) => {
     this.setState({
       //copy state
       ...this.state,
@@ -79,20 +77,13 @@ class App extends Component {
           return {
             ...item,
             // change increase -> to !increase
-            increase: !item.increase,
+            [prop]: !item[prop],
           };
         }
         //if doesnt find -> return item without changes
         return item;
       }),
     });
-    console.log(this.state.data);
-  };
-
-  //*************/ WILL change method in the future
-  //TOGGLE RISE
-  onToggleRise = (id) => {
-    console.log(`toggle Rise ${id}`);
   };
 
   render() {
@@ -121,9 +112,10 @@ class App extends Component {
         {/* EMLOYEES LIST */}
         <EmployeesList
           data={this.state.data}
-          onToggleIncrease={this.onToggleIncrease}
-          onToggleRise={this.onToggleRise}
           onDelete={this.onDeleteItem}
+          onToggleProp={this.onToggleProp}
+          // onToggleIncrease={this.onToggleIncrease}
+          // onToggleRise={this.onToggleRise}
         />
 
         {/*FORM ADD EMOPLOYEE */}

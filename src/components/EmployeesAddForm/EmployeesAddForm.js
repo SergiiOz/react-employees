@@ -14,6 +14,8 @@ class EmployeesAddForm extends Component {
   //create and pass new user
   onSubmit = (e) => {
     e.preventDefault();
+    //check field input: 'name' must has lenth > 3 and 'salary' isn't empty
+    if (this.state.name.length < 3 || this.state.salary === '') return;
 
     this.props.onAddItem(this.state.name, this.state.salary);
 
@@ -24,7 +26,7 @@ class EmployeesAddForm extends Component {
     });
   };
 
-  //pass value from input 'name' and 'salary'
+  //pass value from input 'name' and  input 'salary'
   onValueChange = (e) => {
     this.setState({
       [e.target.name]: e.target.value,
