@@ -34,6 +34,7 @@ class App extends Component {
           id: 3,
         },
       ],
+      searchTerm: '',
     };
 
     this.maxId = 4;
@@ -65,7 +66,7 @@ class App extends Component {
     }));
   };
 
-//Toggle rise nad toggle increase
+  //Toggle rise nad toggle increase
   onToggleProp = (id, prop) => {
     this.setState({
       //copy state
@@ -86,6 +87,25 @@ class App extends Component {
     });
   };
 
+  //SEARCH Employees
+  searchEmployees = (arrItems, searchTerm) => {
+    if (arrItems.length === 0) {
+      return arrItems;
+    }
+
+    return arrItems.filter((item) => {
+      // if -1 not found name -> we return only found
+      return item.name.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1;
+    });
+  };
+
+  //UPDATE SearchTerm
+  onUpdateSearchTerm = (term) => {
+    this.setState({
+      searchTerm: term,
+    });
+  };
+
   render() {
     console.log(this.state);
     // get total amount employees in the company
@@ -94,6 +114,11 @@ class App extends Component {
     const amountEmployeesReceivedIncrease = this.state.data.filter(
       (item) => item.increase === true
     ).length;
+    //
+    const visibleEmployees = this.searchEmployees(
+      this.state.data,
+      this.state.searchTerm
+    );
 
     return (
       <div className="app">
@@ -105,13 +130,13 @@ class App extends Component {
 
         {/* SEARCH PANEL */}
         <div className="searchPanel">
-          <SearchPanel />
+          <SearchPanel onUpdateSearchTerm={this.onUpdateSearchTerm} />
           <AppFilter />
         </div>
 
         {/* EMLOYEES LIST */}
         <EmployeesList
-          data={this.state.data}
+          data={visibleEmployees}
           onDelete={this.onDeleteItem}
           onToggleProp={this.onToggleProp}
           // onToggleIncrease={this.onToggleIncrease}
