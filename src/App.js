@@ -35,6 +35,7 @@ class App extends Component {
         },
       ],
       searchTerm: '',
+      filterTerm: 'allEmployees',
     };
 
     this.maxId = 4;
@@ -106,6 +107,35 @@ class App extends Component {
     });
   };
 
+  onUpdateFilterTerm = (term) => {
+    this.setState({
+      filterTerm: term,
+    });
+  };
+
+  //filterPromotionEmployee
+  filterPromotionEmployees = (arrItems) => {
+    return arrItems.filter((item) => item.rise === true);
+  };
+
+  //filter sallary over
+  filterSalaryOver = (arrItems) => {
+    return arrItems.filter((item) => item.salary > 1000);
+  };
+
+  filterEmployees = (arrItems, filterTerm, searchTerm) => {
+    switch (filterTerm) {
+      case 'promotionEmployees':
+        return this.filterSalaryOver(arrItems);
+      case 'overSalary':
+        return this.filterPromotionEmployees(arrItems);
+      case 'allEmployees':
+        return this.searchEmployees(arrItems, searchTerm);
+      default:
+        break;
+    }
+  };
+
   render() {
     console.log(this.state);
     // get total amount employees in the company
@@ -115,8 +145,14 @@ class App extends Component {
       (item) => item.increase === true
     ).length;
     //
-    const visibleEmployees = this.searchEmployees(
+    // const visibleEmployees = this.searchEmployees(
+    //   this.state.data,
+    //   this.state.searchTerm
+    // );
+
+    const visibleEmployees = this.filterEmployees(
       this.state.data,
+      this.state.filterTerm,
       this.state.searchTerm
     );
 
@@ -131,7 +167,7 @@ class App extends Component {
         {/* SEARCH PANEL */}
         <div className="searchPanel">
           <SearchPanel onUpdateSearchTerm={this.onUpdateSearchTerm} />
-          <AppFilter />
+          <AppFilter onUpdateFilterTerm={this.onUpdateFilterTerm} />
         </div>
 
         {/* EMLOYEES LIST */}
