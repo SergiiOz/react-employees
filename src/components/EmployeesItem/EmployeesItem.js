@@ -7,6 +7,7 @@ const EmployeesItem = ({
   increase,
   rise,
   onToggleProp,
+  onUpdateSalary,
   id,
 }) => {
   //add classes for <li> elements
@@ -37,7 +38,9 @@ const EmployeesItem = ({
       <input
         type="text"
         className="list-group-item-input"
-        defaultValue={`$${salary}`}
+        // defaultValue={`$${salary}`}
+        value={`${salary}`}
+        onChange={(e) => onUpdateSalary(id, e.target.value)}
       />
 
       <div className="d-flex justify-content-center align-items-center">

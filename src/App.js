@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import './App.css';
+import classes from './App.module.scss';
 import AppInfo from './components/AppInfo/AppInfo';
 import SearchPanel from './components/SearchPanel/SearchPanel';
 import AppFilter from './components/AppFilter/AppFilter';
@@ -88,6 +88,22 @@ class App extends Component {
     });
   };
 
+  //UPDATE salary
+  onUpdateSalary = (id, salary) => {
+    this.setState({
+      ...this.state,
+      data: this.state.data.map((item) => {
+        if (item.id === id) {
+          return {
+            ...item,
+            salary: salary,
+          };
+        }
+        return item;
+      }),
+    });
+  };
+
   //SEARCH Employees
   searchEmployees = (arrItems, searchTerm) => {
     if (arrItems.length === 0) {
@@ -107,28 +123,19 @@ class App extends Component {
     });
   };
 
+  //UPDATE FilterTerm
   onUpdateFilterTerm = (term) => {
     this.setState({
       filterTerm: term,
     });
   };
 
-  //filterPromotionEmployee
-  filterPromotionEmployees = (arrItems) => {
-    return arrItems.filter((item) => item.rise === true);
-  };
-
-  //filter sallary over
-  filterSalaryOver = (arrItems) => {
-    return arrItems.filter((item) => item.salary > 1000);
-  };
-
   filterEmployees = (arrItems, filterTerm, searchTerm) => {
     switch (filterTerm) {
-      case 'promotionEmployees':
-        return this.filterSalaryOver(arrItems);
       case 'overSalary':
-        return this.filterPromotionEmployees(arrItems);
+        return arrItems.filter((items) => items.salary > 1000);
+      case 'promotionEmployees':
+        return arrItems.filter((item) => item.rise === true);
       case 'allEmployees':
         return this.searchEmployees(arrItems, searchTerm);
       default:
@@ -137,7 +144,6 @@ class App extends Component {
   };
 
   render() {
-    console.log(this.state);
     // get total amount employees in the company
     const totalAmountEmployees = this.state.data.length;
     // get amount employees will receive increase
@@ -157,7 +163,7 @@ class App extends Component {
     );
 
     return (
-      <div className="app">
+      <div className={classes.app}>
         {/* APP INFO */}
         <AppInfo
           totalAmountEmployees={totalAmountEmployees}
@@ -167,7 +173,10 @@ class App extends Component {
         {/* SEARCH PANEL */}
         <div className="searchPanel">
           <SearchPanel onUpdateSearchTerm={this.onUpdateSearchTerm} />
-          <AppFilter onUpdateFilterTerm={this.onUpdateFilterTerm} />
+          <AppFilter
+            filterTerm={this.state.filterTerm}
+            onUpdateFilterTerm={this.onUpdateFilterTerm}
+          />
         </div>
 
         {/* EMLOYEES LIST */}
@@ -175,6 +184,7 @@ class App extends Component {
           data={visibleEmployees}
           onDelete={this.onDeleteItem}
           onToggleProp={this.onToggleProp}
+          onUpdateSalary={this.onUpdateSalary}
           // onToggleIncrease={this.onToggleIncrease}
           // onToggleRise={this.onToggleRise}
         />
